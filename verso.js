@@ -7,6 +7,10 @@ angular.module('verso', ['ngRoute'])
             controller: 'SearchCtrl',
             templateUrl: 'views/search.html'
         })
+        .when('/book/:bookId', {
+            controller: 'BookInfoCtrl',
+            templateUrl: 'views/bookinfo.html'
+        })
         .otherwise({
             redirectTo:'/'
         });
@@ -25,6 +29,11 @@ angular.module('verso', ['ngRoute'])
                 $scope.searchResultsBookIds = data.book_ids;
             });
         });
+    }
+})
 
+.controller('BookInfoCtrl', function ($scope, $routeParams) {
+    $scope.init = function () {
+        console.log($routeParams.bookId);
     }
 });
