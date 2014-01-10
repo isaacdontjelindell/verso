@@ -1,4 +1,6 @@
-BASE_AJAX_URL = 'http://ebooks.isaacdontjelindell.com/ajax';
+//BASE_AJAX_URL = 'http://ebooks.isaacdontjelindell.com/ajax';
+BASE_AJAX_URL = 'http://localhost/ajax';
+
 
 angular.module('verso', ['ngRoute'])
 .config(function ($routeProvider) {
