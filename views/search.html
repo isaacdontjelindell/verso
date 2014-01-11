@@ -1,6 +1,11 @@
 <ul>
-  <li ng-repeat="book in searchResultsBookIds">
-    <a href="/#/book/{{book}}">{{book}}</a>
+  <li ng-repeat="book in searchResultsBookInfo">
+    <div class="book-info">
+      <a href="/#/book/{{book.application_id}}">
+        <span class="title">{{book.title}}</span>,
+        <span class="author italic">{{book.authors[0]}}</span>
+      </a>
+    </div>
   </li>
 </ul>
 

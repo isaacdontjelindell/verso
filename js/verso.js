@@ -19,23 +19,32 @@ angular.module('verso', ['ngRoute'])
 })
 
 .controller('SearchCtrl', function ($scope) {
-    $scope.testData = ['book1', 'book2'];
-    $scope.searchResultsBookIds = [];
+    $scope.searchResultsBookInfo = [];
 
-    $scope.search = function() {
+    $scope.search = function () {
         var searchTerm = $scope.searchText;
 
         $.get(BASE_AJAX_URL + '/search', {num:25, query:searchTerm}, function success (data) {
             console.log(data);
-            $scope.$apply(function () {
-                $scope.searchResultsBookIds = data.book_ids;
+            $.each(data.book_ids, function (index, item) {
+                $.get(BASE_AJAX_URL + '/book/' + item, function success (bookInfo) {
+                    $scope.$apply(function () {
+                        $scope.searchResultsBookInfo.push(bookInfo);
+                    });
+                });
             });
         });
     }
 })
 
 .controller('BookInfoCtrl', function ($scope, $routeParams) {
-    $scope.init = function () {
-        console.log($routeParams.bookId);
+    $scope.getBookInfo = function () {
+
+        $.get(BASE_AJAX_URL + '/book/' + $routeParams.bookId, function success (data) {
+            console.log(data);
+            $scope.$apply(function () {
+                $scope.bookInfo = data;
+            });
+        });
     }
 });

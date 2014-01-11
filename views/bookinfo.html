@@ -1,3 +1,12 @@
 <form ng-submit="getBookInfo()">
   <button type="submit">Try</button>
 </form>
+
+<div class="book-info-full">
+  <span class="title">{{bookInfo.title}}</span>
+  <span class="author">{{bookInfo.authors[0]}}</span>
+  <ul class="ebook-format-list">
+    <li ng-repeat="format in bookInfo.formats">{{format}}</li>
+  </ul>
+</div>
+
