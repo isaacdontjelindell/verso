@@ -18,33 +18,37 @@ angular.module('verso', ['ngRoute'])
         });
 })
 
-.controller('SearchCtrl', function ($scope) {
+.controller('SearchCtrl', function ($scope, $http) {
     $scope.searchResultsBookInfo = [];
 
     $scope.search = function () {
         var searchTerm = $scope.searchText;
 
-        $.get(BASE_AJAX_URL + '/search', {num:25, query:searchTerm}, function success (data) {
-            console.log(data);
-            $.each(data.book_ids, function (index, item) {
-                $.get(BASE_AJAX_URL + '/book/' + item, function success (bookInfo) {
-                    $scope.$apply(function () {
-                        $scope.searchResultsBookInfo.push(bookInfo);
-                    });
-                });
+        $http({method: 'GET', url: BASE_AJAX_URL + '/search', params: {num: 25, query: searchTerm}})
+            .success(function (data, status, headers, config) {
+                $.each(data.book_ids, function (index, item) {
+                    $http({method: 'GET', url: BASE_AJAX_URL + '/book/' + item})
+                        .success(function (d, s, h, c) {
+                            $scope.searchResultsBookInfo.push(d);
+                        })
+                })
+            })
+            .error(function (data, status, headers, config) {
+                console.error('Shit, something broke doing the search');
             });
-        });
     }
 })
 
-.controller('BookInfoCtrl', function ($scope, $routeParams) {
+.controller('BookInfoCtrl', function ($scope, $routeParams, $http) {
     $scope.getBookInfo = function () {
 
-        $.get(BASE_AJAX_URL + '/book/' + $routeParams.bookId, function success (data) {
-            console.log(data);
-            $scope.$apply(function () {
+        $http({method: 'GET', url: BASE_AJAX_URL + '/book/' + $routeParams.bookId})
+            .success(function (data, status, headers, config) {
                 $scope.bookInfo = data;
+            })
+            .error(function (data, status, headers, config) {
+                console.error('Shit, something broke getting book info');
             });
-        });
+
     }
 });
