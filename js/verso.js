@@ -38,6 +38,10 @@ angular.module('verso', ['ngRoute'])
 .controller('SearchCtrl', function ($scope, $http, $location) {
     $scope.searchResultsBookInfo = [];
 
+    $scope.goToBook = function (loc) {
+        window.location = "/#/book/" + loc;
+    };
+
     var search = function (searchTerm) {
         console.log(searchTerm); // TODO remove
 
