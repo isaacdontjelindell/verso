@@ -5,9 +5,9 @@ BASE_AJAX_URL = 'http://localhost/ajax';
 angular.module('verso', ['ngRoute'])
 .config(function ($routeProvider) {
     $routeProvider
-        .when('/', {
+        .when('/search', {
             controller: 'SearchCtrl',
-            templateUrl: 'views/search.html'
+            templateUrl: 'views/search_results.html'
         })
         .when('/book/:bookId', {
             controller: 'BookInfoCtrl',
@@ -18,11 +18,11 @@ angular.module('verso', ['ngRoute'])
         });
 })
 
-.controller('SearchCtrl', function ($scope, $http) {
+.controller('SearchCtrl', function ($scope, $http, $location) {
     $scope.searchResultsBookInfo = [];
 
-    $scope.search = function () {
-        var searchTerm = $scope.searchText;
+    var search = function (searchTerm) {
+        console.log(searchTerm); // TODO remove
 
         $http({method: 'GET', url: BASE_AJAX_URL + '/search', params: {num: 25, query: searchTerm}})
             .success(function (data, status, headers, config) {
@@ -36,7 +36,13 @@ angular.module('verso', ['ngRoute'])
             .error(function (data, status, headers, config) {
                 console.error('Shit, something broke doing the search');
             });
-    }
+    };
+
+    angular.element(document).ready(function init () {
+        var searchTerm = $location.search().s;
+        search(searchTerm);
+    });
+
 })
 
 .controller('BookInfoCtrl', function ($scope, $routeParams, $http) {
