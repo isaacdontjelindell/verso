@@ -5,6 +5,10 @@ BASE_AJAX_URL = 'http://localhost/ajax';
 angular.module('verso', ['ngRoute'])
 .config(function ($routeProvider) {
     $routeProvider
+        .when('/', {
+            controller: 'IndexCtrl',
+            templateUrl: 'views/nothing.html'
+        })
         .when('/search', {
             controller: 'SearchCtrl',
             templateUrl: 'views/search_results.html'
@@ -16,6 +20,19 @@ angular.module('verso', ['ngRoute'])
         .otherwise({
             redirectTo:'/'
         });
+})
+
+.controller('IndexCtrl', function ($scope) {
+    angular.element(document).ready(function init () {
+        console.log('starting...');
+
+        $("form[role='search']").submit(function (event) {
+            console.log($('#srch-term').val());
+            document.location.href = '/#/search?s=' + $('#srch-term').val();
+            return false;
+        });
+
+    })
 })
 
 .controller('SearchCtrl', function ($scope, $http, $location) {
@@ -48,6 +65,7 @@ angular.module('verso', ['ngRoute'])
 })
 
 .controller('BookInfoCtrl', function ($scope, $routeParams, $http) {
+
     $scope.getBookInfo = function () {
 
         $http({method: 'GET', url: BASE_AJAX_URL + '/book/' + $routeParams.bookId})
