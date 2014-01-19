@@ -24,18 +24,20 @@ angular.module('verso', ['ngRoute'])
     var search = function (searchTerm) {
         console.log(searchTerm); // TODO remove
 
-        $http({method: 'GET', url: BASE_AJAX_URL + '/search', params: {num: 25, query: searchTerm}})
-            .success(function (data, status, headers, config) {
-                $.each(data.book_ids, function (index, item) {
-                    $http({method: 'GET', url: BASE_AJAX_URL + '/book/' + item})
-                        .success(function (d, s, h, c) {
-                            $scope.searchResultsBookInfo.push(d);
-                        })
+        if (searchTerm) {
+            $http({method: 'GET', url: BASE_AJAX_URL + '/search', params: {num: 25, query: searchTerm}})
+                .success(function (data, status, headers, config) {
+                    $.each(data.book_ids, function (index, item) {
+                        $http({method: 'GET', url: BASE_AJAX_URL + '/book/' + item})
+                            .success(function (d, s, h, c) {
+                                $scope.searchResultsBookInfo.push(d);
+                            })
+                    })
                 })
-            })
-            .error(function (data, status, headers, config) {
-                console.error('Shit, something broke doing the search');
-            });
+                .error(function (data, status, headers, config) {
+                    console.error('Shit, something broke doing the search');
+                });
+        }
     };
 
     angular.element(document).ready(function init () {
