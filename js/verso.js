@@ -24,10 +24,7 @@ angular.module('verso', ['ngRoute'])
 
 .controller('IndexCtrl', function ($scope) {
     angular.element(document).ready(function init () {
-        console.log('starting...');
-
         $("form[role='search']").submit(function (event) {
-            console.log($('#srch-term').val());
             document.location.href = '/#/search?s=' + $('#srch-term').val();
             return false;
         });
@@ -43,8 +40,6 @@ angular.module('verso', ['ngRoute'])
     };
 
     var search = function (searchTerm) {
-        console.log(searchTerm); // TODO remove
-
         if (searchTerm) {
             $http({method: 'GET', url: BASE_AJAX_URL + '/search', params: {num: 25, query: searchTerm}})
                 .success(function (data, status, headers, config) {
@@ -70,7 +65,7 @@ angular.module('verso', ['ngRoute'])
 
 .controller('BookInfoCtrl', function ($scope, $routeParams, $http) {
 
-    $scope.getBookInfo = function () {
+    var getBookInfo = function () {
 
         $http({method: 'GET', url: BASE_AJAX_URL + '/book/' + $routeParams.bookId})
             .success(function (data, status, headers, config) {
@@ -80,5 +75,10 @@ angular.module('verso', ['ngRoute'])
                 console.error('Shit, something broke getting book info');
             });
 
-    }
+    };
+
+    angular.element(document).ready(function init () {
+        getBookInfo();
+    });
+
 });
