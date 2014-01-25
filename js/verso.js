@@ -41,11 +41,30 @@ angular.module('verso', ['ngRoute'])
 
     var search = function (searchTerm) {
         if (searchTerm) {
+
+            $("#loading-indicator").show();
+            var counter = 0;
+            setInterval(function() {
+                var frames=19; var frameWidth = 30;
+                var offset=counter * -frameWidth;
+                document.getElementById("loading-indicator").style.backgroundPosition=0 + "px" + " " + offset + "px";
+                counter++; if (counter>=frames) counter =0;
+            }, 50);
+
+
             $http({method: 'GET', url: BASE_AJAX_URL + '/search', params: {num: 25, query: searchTerm}})
                 .success(function (data, status, headers, config) {
+                    if (data.book_ids.length == 0) {
+                        // TODO say that there aren't any results
+                        $("#loading-indicator").hide();
+                    }
+
                     $.each(data.book_ids, function (index, item) {
                         $http({method: 'GET', url: BASE_AJAX_URL + '/book/' + item})
                             .success(function (d, s, h, c) {
+                                // TODO is there any way to do this after all results have been shown?
+                                $("#loading-indicator").hide();
+
                                 $scope.searchResultsBookInfo.push(d);
                             })
                     })
