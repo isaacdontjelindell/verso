@@ -34,8 +34,10 @@ angular.module('verso', ['ngRoute'])
 
 .controller('SearchCtrl', function ($scope, $http, $location) {
     $scope.searchResultsBookInfo = [];
+    $scope.spinnerIntervalId = null;
 
     $scope.goToBook = function (loc) {
+        clearInterval($scope.spinnerIntervalId);
         window.location = "/#/book/" + loc;
     };
 
@@ -44,7 +46,7 @@ angular.module('verso', ['ngRoute'])
 
             $("#loading-indicator").show();
             var counter = 0;
-            setInterval(function() {
+            $scope.spinnerIntervalId = setInterval(function() {
                 var frames=19; var frameWidth = 30;
                 var offset=counter * -frameWidth;
                 document.getElementById("loading-indicator").style.backgroundPosition=0 + "px" + " " + offset + "px";
@@ -57,6 +59,7 @@ angular.module('verso', ['ngRoute'])
                     if (data.book_ids.length == 0) {
                         // TODO say that there aren't any results
                         $("#loading-indicator").hide();
+                        clearInterval($scope.spinnerIntervalId);
                     }
 
                     $.each(data.book_ids, function (index, item) {
@@ -64,7 +67,7 @@ angular.module('verso', ['ngRoute'])
                             .success(function (d, s, h, c) {
                                 // TODO is there any way to do this after all results have been shown?
                                 $("#loading-indicator").hide();
-
+                                clearInterval($scope.spinnerIntervalId);
                                 $scope.searchResultsBookInfo.push(d);
                             })
                     })
