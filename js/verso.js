@@ -57,9 +57,9 @@ angular.module('verso', ['ngRoute'])
             $http({method: 'GET', url: BASE_AJAX_URL + '/search', params: {num: 25, query: searchTerm}})
                 .success(function (data, status, headers, config) {
                     if (data.book_ids.length == 0) {
-                        // TODO say that there aren't any results
                         $("#loading-indicator").hide();
                         clearInterval($scope.spinnerIntervalId);
+                        $scope.searchResultsBookInfo.push({'title':'No results', 'authors':['']})
                     }
 
                     $.each(data.book_ids, function (index, item) {
