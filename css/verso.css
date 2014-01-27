@@ -10,4 +10,5 @@ body {
     width:30px;
     height:30px;
     background-image: url('../img/loading.png');
+    display: none;
 }

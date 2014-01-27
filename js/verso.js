@@ -43,7 +43,6 @@ angular.module('verso', ['ngRoute'])
 
     var search = function (searchTerm) {
         if (searchTerm) {
-
             $("#loading-indicator").show();
             var counter = 0;
             $scope.spinnerIntervalId = setInterval(function() {
