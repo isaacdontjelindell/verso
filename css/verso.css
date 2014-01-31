@@ -12,3 +12,17 @@ body {
     background-image: url('../img/loading.png');
     display: none;
 }
+
+.ebook-formats {
+    margin-top: 15px;
+}
+
+span.title {
+    font-size: 1.5em;
+    margin-right: 5px;
+}
+
+span.author {
+    font-size: 1.3em;
+    margin-left: 5px;
+}

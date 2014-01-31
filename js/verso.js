@@ -85,8 +85,7 @@ angular.module('verso', ['ngRoute'])
 })
 
 .controller('BookInfoCtrl', function ($scope, $routeParams, $http) {
-    // download links:
-    // /get/mobi/11393
+    // pass it to the view to build the file download links
     $scope.BASE_CALIBRE_URL = BASE_CALIBRE_URL;
 
     var getBookInfo = function () {

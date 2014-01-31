@@ -1,10 +1,14 @@
 <div class="book-info-full">
-  <span class="title">{{bookInfo.title}}</span>
+  <span class="title">{{bookInfo.title}}</span> by
   <span class="author">{{bookInfo.authors[0]}}</span>
-  <ul class="ebook-format-list">
-    <li ng-repeat="format in bookInfo.formats">
-      <a href="{{BASE_CALIBRE_URL}}/get/{{format}}/{{bookInfo.application_id}}">{{format}}</a>
-    </li>
-  </ul>
+
+  <div class="ebook-formats">
+    Download links:
+    <ul class="ebook-format-list">
+      <li ng-repeat="format in bookInfo.formats">
+        <a href="{{BASE_CALIBRE_URL}}/get/{{format}}/{{bookInfo.application_id}}">{{format}}</a>
+      </li>
+    </ul>
+  </div>
 </div>
 
