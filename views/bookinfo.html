@@ -2,7 +2,9 @@
   <span class="title">{{bookInfo.title}}</span>
   <span class="author">{{bookInfo.authors[0]}}</span>
   <ul class="ebook-format-list">
-    <li ng-repeat="format in bookInfo.formats">{{format}}</li>
+    <li ng-repeat="format in bookInfo.formats">
+      <a href="{{BASE_CALIBRE_URL}}/get/{{format}}/{{bookInfo.application_id}}">{{format}}</a>
+    </li>
   </ul>
 </div>
 

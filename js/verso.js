@@ -1,5 +1,6 @@
 //BASE_AJAX_URL = 'http://ebooks.isaacdontjelindell.com/ajax';
-BASE_AJAX_URL = 'http://localhost/ajax';
+BASE_CALIBRE_URL = 'http://localhost';
+BASE_AJAX_URL = BASE_CALIBRE_URL + '/ajax';
 
 
 angular.module('verso', ['ngRoute'])
@@ -52,19 +53,18 @@ angular.module('verso', ['ngRoute'])
                 counter++; if (counter>=frames) counter =0;
             }, 50);
 
-
             $http({method: 'GET', url: BASE_AJAX_URL + '/search', params: {num: 25, query: searchTerm}})
                 .success(function (data, status, headers, config) {
                     if (data.book_ids.length == 0) {
+                        $scope.searchResultsBookInfo.push({'title':'No results', 'authors':['']})
                         $("#loading-indicator").hide();
                         clearInterval($scope.spinnerIntervalId);
-                        $scope.searchResultsBookInfo.push({'title':'No results', 'authors':['']})
                     }
 
                     $.each(data.book_ids, function (index, item) {
                         $http({method: 'GET', url: BASE_AJAX_URL + '/book/' + item})
                             .success(function (d, s, h, c) {
-                                // TODO is there any way to do this after all results have been shown?
+                                // TODO is there any way to do this just ONCE after all results have been shown?
                                 $("#loading-indicator").hide();
                                 clearInterval($scope.spinnerIntervalId);
                                 $scope.searchResultsBookInfo.push(d);
@@ -85,9 +85,11 @@ angular.module('verso', ['ngRoute'])
 })
 
 .controller('BookInfoCtrl', function ($scope, $routeParams, $http) {
+    // download links:
+    // /get/mobi/11393
+    $scope.BASE_CALIBRE_URL = BASE_CALIBRE_URL;
 
     var getBookInfo = function () {
-
         $http({method: 'GET', url: BASE_AJAX_URL + '/book/' + $routeParams.bookId})
             .success(function (data, status, headers, config) {
                 $scope.bookInfo = data;
