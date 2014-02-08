@@ -8,7 +8,7 @@ angular.module('verso', ['ngRoute'])
     $routeProvider
         .when('/', {
             controller: 'IndexCtrl',
-            templateUrl: 'views/nothing.html'
+            templateUrl: 'views/index.html'
         })
         .when('/search', {
             controller: 'SearchCtrl',
@@ -17,6 +17,10 @@ angular.module('verso', ['ngRoute'])
         .when('/book/:bookId', {
             controller: 'BookInfoCtrl',
             templateUrl: 'views/bookinfo.html'
+        })
+        .when('/authors', {
+            controller: 'AuthorsCtrl',
+            templateUrl: 'views/authors.html'
         })
         .otherwise({
             redirectTo:'/'
@@ -32,6 +36,11 @@ angular.module('verso', ['ngRoute'])
 
     })
 })
+
+.controller('AuthorsCtrl', function($scope) {
+
+})
+
 
 .controller('SearchCtrl', function ($scope, $http, $location) {
     $scope.searchResultsBookInfo = [];
